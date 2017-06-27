@@ -20,15 +20,22 @@ request(host + statusUrl, (err, res, body) => {
     Object.keys(parsedBody).reduce((prev, curr) => {
       const person = parsedBody[curr];
       if (person.birthdate) {
-      const first_name = capitalizeFirstLetter(curr.split('.')[0])
-      const last_name = capitalizeFirstLetter(curr.split('.')[1].split('@')[0])
-
-      birthdays.push({
-        name: first_name + ' ' + last_name,
-        date: person.birthdate,
-        agency: person.agency
-      })
+        const first_name = capitalizeFirstLetter(curr.split('.')[0])
+        const last_name = capitalizeFirstLetter(curr.split('.')[1].split('@')[0])
+        const birthdateString = person.birthdate + '';
+        const year = birthdateString.slice(0, 4);
+        const month = birthdateString.slice(4, 6);
+        const day = birthdateString.slice(7)
+        birthdays.push({
+          name: first_name + ' ' + last_name,
+          date: new Date(year, month - 1, day),
+          agency: person.agency
+        })
       }
+    })
+
+    birthdays.sort((a, b) => {
+      return new Date(0, a.date.getMonth(), a.date.getDay()) - new Date(0, b.date.getMonth(), b.date.getDay())
     })
   
     const app = express();
