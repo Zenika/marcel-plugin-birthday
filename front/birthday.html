@@ -20,7 +20,7 @@
     </style>
     <h1 class="title">Anniversaires</h1>
     <template is="dom-if" if="[[todayBirthday]]">
-      <h2><i class="fa fa-birthday-cake"></i> {{todayBirthday.name}} <i class="fa fa-birthday-cake"></i></h2>
+      <h2><i class="fa fa-birthday-cake"></i> {{todayBirthday.name}} - {{todayBirthday.age}} ans <i class="fa fa-birthday-cake"></i></h2>
     </template>
     <template is="dom-repeat" items="[[birthdays]]" as="birthday">
       <p><span class="name">{{birthday.name}}</span> le {{birthday.date}}</p>
@@ -45,7 +45,41 @@
 
           this.birthdays = [];
 
-          this._fetchBirthdays();
+          this._fetchBirthdays()
+              .then(() => {
+                const now = new Date(Date.now());
+
+                let filteredBirthdays = this.birthdays.filter(birthday => {
+                  let birthdate = new Date(now);
+                  birthdate.setMonth(new Date(birthday.date).getMonth())
+                  birthdate.setDate(new Date(birthday.date).getDate())
+                  return birthdate - now >= 0
+                })
+                let i = 0;
+                while (filteredBirthdays.length < 4) {
+                  filteredBirthdays.push(this.birthdays[i])
+                  i++;
+                }
+
+                let birthdate = new Date(now);
+                birthdate.setMonth(new Date(filteredBirthdays[0].date).getMonth())
+                birthdate.setDate(new Date(filteredBirthdays[0].date).getDate())
+                let today = false;
+                if (birthdate - now === 0) {
+                  today = true;
+                  this.todayBirthday = {
+                    name: filteredBirthdays[0].name,
+                    age: now.getFullYear() - new Date(filteredBirthdays[0].date).getFullYear() 
+                  }
+                }
+
+                if (today) {
+                  filteredBirthdays = filteredBirthdays.slice(1, 3)
+                } else {
+                  filteredBirthdays = filteredBirthdays.slice(0, 3)
+                }
+                this.birthdays = filteredBirthdays;
+              })
         }
 
         _fetchBirthdays () {

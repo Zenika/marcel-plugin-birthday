@@ -22,10 +22,12 @@ request(host + statusUrl, (err, res, body) => {
       if (person.birthdate) {
         const first_name = capitalizeFirstLetter(curr.split('.')[0])
         const last_name = capitalizeFirstLetter(curr.split('.')[1].split('@')[0])
+
         const birthdateString = person.birthdate + '';
         const year = birthdateString.slice(0, 4);
         const month = birthdateString.slice(4, 6);
-        const day = birthdateString.slice(7)
+        const day = birthdateString.slice(6)
+
         birthdays.push({
           name: first_name + ' ' + last_name,
           date: new Date(year, month - 1, day),
@@ -35,7 +37,7 @@ request(host + statusUrl, (err, res, body) => {
     })
 
     birthdays.sort((a, b) => {
-      return new Date(0, a.date.getMonth(), a.date.getDay()) - new Date(0, b.date.getMonth(), b.date.getDay())
+      return new Date(0, a.date.getMonth(), a.date.getDate()) - new Date(0, b.date.getMonth(), b.date.getDate())
     })
   
     const app = express();
