@@ -1,5 +1,5 @@
 <link rel="import" href="/plugins/shared-styles/shared-styles.html">
-<link rel="import" href="/plugins/font-awesome/font-awesome.html">
+<link rel="import" href="/plugins/vendors/font-awesome/font-awesome.html">
 
 <dom-module id="birthday-item">
   <template>
@@ -33,8 +33,10 @@
 
         static get properties () {
           return {
+            agency: String,
+            backend: String,
             birthdays: Array,
-            todayBirthday: Object
+            todayBirthday: Object,
           }
         }
 
@@ -42,10 +44,20 @@
           super.connectedCallback();
 
           this.birthdays = [];
-          this.birthdays.push({name: 'Valentin STERN', date: '03/11/1995'})
 
-          this.todayBirthday = {name: 'Valentin STERN'};
+          this._fetchBirthdays();
         }
+
+        _fetchBirthdays () {
+          let url = this.backend;
+          if (this.agency) {
+            url += '/' + this.agency;
+          }
+          return fetch(url)
+                    .then(res => res.json())
+                    .then(res => this.birthdays = res)
+        }
+        
       }
 
       customElements.define(Birthday.is, Birthday)
