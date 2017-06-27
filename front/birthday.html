@@ -1,5 +1,6 @@
 <link rel="import" href="/plugins/shared-styles/shared-styles.html">
 <link rel="import" href="/plugins/vendors/font-awesome/font-awesome.html">
+<link rel="import" href="/bower_components/moment-element/moment-element.html">
 
 <dom-module id="birthday-item">
   <template>
@@ -23,7 +24,7 @@
       <h2><i class="fa fa-birthday-cake"></i> {{todayBirthday.name}} - {{todayBirthday.age}} ans <i class="fa fa-birthday-cake"></i></h2>
     </template>
     <template is="dom-repeat" items="[[birthdays]]" as="birthday">
-      <p><span class="name">{{birthday.name}}</span> le {{birthday.date}}</p>
+      <p><span class="name">{{birthday.name}}</span> le <moment-element datetime="{{event.start.dateTime}}" output-format="DD/MM"></moment-element></p>
     </template>
   </template>
   <script>
