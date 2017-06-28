@@ -24,7 +24,7 @@
       <h2><i class="fa fa-birthday-cake"></i> {{todayBirthday.name}} - {{todayBirthday.age}} ans <i class="fa fa-birthday-cake"></i></h2>
     </template>
     <template is="dom-repeat" items="[[birthdays]]" as="birthday">
-      <p><span class="name">{{birthday.name}}</span> le <moment-element datetime="{{event.start.dateTime}}" output-format="DD/MM"></moment-element></p>
+      <p><span class="name">{{birthday.name}}</span> le <moment-element datetime="{{birthday.date}}" output-format="DD/MM"></moment-element></p>
     </template>
   </template>
   <script>
