@@ -1,0 +1,10 @@
+{
+  "name": "Birthday",
+  "description": "Display the n next birthdays",
+  "elementName": "marcel-plugin-birthday",
+  "files": ["index.html"],
+  "icon": "",
+  "ports": [
+    5000
+  ]
+}

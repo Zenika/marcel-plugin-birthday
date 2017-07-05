@@ -1,8 +1,7 @@
-<link rel="import" href="/plugins/shared-styles/shared-styles.html">
 <link rel="import" href="./font-awesome.html">
-<link rel="import" href="/bower_components/moment-element/moment-element.html">
+<link rel="import" href="./bower_components/moment-element/moment-element.html">
 
-<dom-module id="birthday-item">
+<dom-module id="marcel-plugin-birthday">
   <template>
     <style include="shared-styles"></style>
     <style include="font-awesome"></style>
@@ -30,19 +29,22 @@
   <script>
     (() => {
       class Birthday extends Polymer.Element {
-        static get is () { return 'birthday-item' }
+        static get is () { return 'marcel-plugin-birthday' }
 
         static get properties () {
           return {
             agency: String,
+            back: Array,
             backend: String,
             birthdays: Array,
-            todayBirthday: Object,
+            todayBirthday: Object
           }
         }
 
         connectedCallback () {
           super.connectedCallback();
+
+          this.backend = this.back[0];
 
           this.birthdays = [];
 
